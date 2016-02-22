@@ -1,0 +1,47 @@
+<ion-view view-title="Account">
+  <ion-content ng-controller="AccountCtrl">
+
+    <div class="list list-inset">
+      <form >
+        <label class="item item-input">
+          <input type="text" ng-model="userData.Shop" name="Shop" placeholder="Shop Name" />
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="userData.Product" name="Product" placeholder="Product" />
+        </label>
+        <label class="item item-input">
+          <input type="text" ng-model="userData.quantity" name="quantity" placeholder="quantity" />
+        </label>
+        <br>
+        <button  class="button button-block button-royal icon ion-person-add" ng-click="saveProduct()" >Place Order</button>
+        <button  class="button button-block button-royal icon ion-person-add"  ng-click="view()">Order Details</button>
+      </form>
+
+
+    </div>
+    <div style="text-align: center" class="item item-divider">
+
+    <h3>ORDER'S DETAIL</h3>
+    </div>
+    <div ng-repeat="data in product">
+      <a ng-repeat="product in data.Order" class="item item-avatar" href="#">
+        <h3>PRODUCT ID:      {{product._id}}</h3>
+        <h3>SHOP NAME:       {{product.ShopName}}</h3>
+        <h4>PRODUCT:         {{product.product}}</h4>
+        <h4>PRODUCT QUANTITY:{{product.quantity}}</h4>
+        <h5>ORDER DATE:      {{product.createdOn}}</h5>
+      </a>
+      <!--<div ng-repeat="product in data.Order">-->
+
+        <!--<h3>{{product.ShopName}}</h3>-->
+        <!--<h4>{{product.product}}</h4>-->
+        <!--<h4>{{product.quantity}}</h4>-->
+        <!--<h4>{{product._id}}</h4>-->
+        <!--<h5>{{product.createdOn}}</h5>-->
+      <!--</div>-->
+      </div>
+
+
+
+  </ion-content>
+</ion-view>

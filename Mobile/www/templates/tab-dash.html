@@ -1,0 +1,17 @@
+<ion-view  class="bg" view-title="SalesMen App">
+  <ion-content class="padding">
+    <div class="list list-inset" id="parent">
+      <form id="form_login">
+      <label class="item item-input">
+        <input type="email" ng-model="user.email" placeholder="Email">
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="password" ng-model="user.password">
+      </label>
+      </form>
+    </div>
+    <button class="button button-block button-royal"  ng-click="login()">
+   Login
+    </button>
+  </ion-content>
+</ion-view>
