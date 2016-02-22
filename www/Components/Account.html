@@ -1,0 +1,33 @@
+<ui-view>
+    <div >
+        <md-subheader class="md-primary">Welcome</md-subheader>
+<br>
+
+        <div>
+            <form >
+            <div flex class="companyform">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>Company</label>
+                    <input type="text" ng-model="userData.Company" />
+                </md-input-container>
+                <md-input-container  class="md-block" flex-gt-sm>
+                    <label>Email</label>
+                    <input type="text" ng-model="userData.email" />
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                <label>Password</label>
+                <input type="password" ng-model="userData.password" />
+                </md-input-container>
+                <div class="md-block">
+                <md-button class="md-raised md-primary pull-left margin-0" ng-click="CreateCompany()">Create Company Account</md-button>
+                <md-button class="md-raised md-primary margin-top-0 margin-left-10" ui-sref="Salesmens">Registered Companies</md-button>
+                </div>
+                <!--<md-button class="md-raised md-primary "  >Create Company Account</md-button>-->
+                <!--<md-button class="md-raised md-primary " ui-sref="Salesmens" >Registered Companies</md-button>-->
+
+            </div>
+                </form>
+
+        </div>
+</div>
+</ui-view>

@@ -1,0 +1,61 @@
+<ui-view>
+<div>
+    <md-subheader class="md-no-sticky">WELCOME</md-subheader>
+    <md-sidenav md-component-id="left" md-is-open="isSidenavOpen" class="md-sidenav-left">
+        <md-content>
+            <md-toolbar>
+                <div class="md-toolbar-tools" layout="row">
+
+                    <h2>
+                       ORDERS
+                    </h2>
+                </div>
+            </md-toolbar>
+
+            <md-list ng-repeat=" user in salesmen">
+                <md-list-item class="md-3-line" ng-repeat="u in user.Order">
+                    <img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}"/>
+                    <div class="md-list-item-text" layout="column">
+                        <h3>Shop: {{u.ShopName}}</h3>
+                        <h4>Product: {{u.product}}</h4>
+                        <h4>Product Id: {{u._id}}</h4>
+                        <h4>Quantity: {{u.quantity}}</h4>
+                    </div>
+                    <md-divider></md-divider>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </md-sidenav>
+    <div>
+    <div id="banner">
+
+    </div>
+    </div>
+    <md-divider></md-divider>
+    <div>
+        <md-button  class="md-raised md-primary"  ng-click="ShowUsers()">Track Salesmen</md-button>
+    </div>
+    <div >
+
+        <md-divider></md-divider>
+        <md-list ng-repeat=" user in users">
+
+            <md-list-item class="md-3-line" ng-repeat="u in user.user">
+                <img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}"/>
+                <div class="md-list-item-text" layout="column">
+                     <h3> Salesmen Name:    {{u.name}}</h3>
+                     <h3>Salesmen ID:     {{u._id}}</h3>
+                   <h4> Salesmen Email   {{u.email}}</h4>
+                    <div class="divBtn">
+                    <md-button class="btn" ng-click="show(u._id)" >Orders</md-button>
+                        </div>
+                </div>
+                <md-divider></md-divider>
+                <md-divider></md-divider>
+            </md-list-item>
+        </md-list>
+
+    </div>
+</div>
+
+</ui-view>

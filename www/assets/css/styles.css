@@ -1,0 +1,85 @@
+.md-block{
+    width: 80%;
+    margin: 0 auto;
+}
+.md-toolbar-tools h2
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.sub-header h3{
+text-align: center;
+    text-decoration: underline;
+}
+.btn{
+     color: white;
+    width: 250px;
+    float:right;
+    background: rgb(64, 82, 181);
+}
+.divBtn{
+    width: 100%;
+}
+.bg{
+
+background-image: url("../../img/wallpaper.jpg");
+    background-repeat: no-repeat;
+    background-size: cover ;                      /* <------ */
+    background-position: center center;
+
+}
+footer {
+    background: rgb(40, 61, 157);
+}
+footer h5{
+  color: white;
+}
+
+.loginDiv{
+   width: 50%;
+    margin: auto;
+}
+.md-subheader{
+    text-align: center;
+    background: rgba(158, 168, 174, 0.18);
+}
+.pull-left{
+     float: left;
+ }
+.pull-right{
+    float: right;
+}
+
+.height100{
+    height: 90%;
+}
+
+.margin-0{
+    margin: 0;
+}
+
+.margin-top-0{
+    margin-top: 0;
+}
+
+.margin-left-10{
+    margin-left: 10px;
+}
+.progress{
+    margin: 0;
+}
+
+
+#banner{
+    background:url(../../img/company.jpg) no-repeat center center;
+    height:200px;
+    margin-top: 14px;
+}
+md-sidenav,
+md-sidenav.md-locked-open,
+md-sidenav.md-closed.md-locked-open-add-active {
+    min-width: 200px !important;
+    width: 85vw !important;
+    max-width: 400px !important;
+}

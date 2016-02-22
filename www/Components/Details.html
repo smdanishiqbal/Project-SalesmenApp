@@ -1,0 +1,59 @@
+<ui-view>
+<div>
+
+    <md-content>
+
+
+        <!-- -->
+        <!--<md-subheader class="md-no-sticky">Companies</md-subheader>-->
+        <!--<md-list-item class="md-3-line" ng-repeat="user in users">-->
+        <!--<md-button class="md-primary md-raised" ng-click="showAdvanced($event,user._id)" flex="100" flex-gt-md="auto">-->
+        <!--<img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}" />-->
+        <!--<div class="md-list-item-text" layout="column">-->
+        <!--<h3> {{user.CompanyName}}</h3>-->
+        <!--<h4>{{user.email}}</h4>-->
+            <!--<h5>{{user.user}}</h5>-->
+
+        <!--&lt;!&ndash;<ul><li>{{user.user}}</li></ul>&ndash;&gt;-->
+        <!--</div>-->
+                <!--</md-button>-->
+
+            <!--</md-list-item>-->
+        <md-list>
+
+            <md-subheader class="md-no-sticky">Companies</md-subheader>
+            <md-list-item class="md-3-line" ng-repeat="user in users">
+                <!--<md-button class="md-primary md-raised" ng-click="showAdvanced($event,user._id)" flex="100" flex-gt-md="auto">Add</md-button>-->
+                <img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}" />
+                <div class="md-list-item-text" layout="column" >
+                    <h3>{{user.CompanyName}}</h3>
+                    <h4>{{ user.email }}</h4>
+
+                    <button ng-click="showAdvanced($event,user._id)">Add User</button>
+                    <button   ng-click="show($event,user._id)">Show</button>
+                    <!--<button ng-click="show(user._id)" ui-sref="Salesmens">Goto</button>-->
+                </div>
+
+                <md-divider ></md-divider>
+            </md-list-item>
+            </md-list>
+
+
+</md-content>
+    <!--<md-list>-->
+        <!--<md-subheader class="md-no-sticky">Companies</md-subheader>-->
+        <!--<md-list-item class="md-3-line" ng-repeat="item in users" ng-click="showAdvanced($event,user._id)">-->
+            <!--<img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}" />-->
+            <!--<div class="md-list-item-text" layout="column">-->
+                <!--<h3>{{ item.CompanyName }}</h3>-->
+                <!--<h4>{{ item.email }}</h4>-->
+                <!-- -->
+            <!--</div>-->
+            <!--<md-divider ></md-divider>-->
+        <!--</md-list-item>-->
+        <!--</md-list>-->
+
+</div>
+
+
+</ui-view>

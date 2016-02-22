@@ -1,0 +1,27 @@
+<md-dialog aria-label="Mango (Fruit)"  ng-cloak ng-controller="SalesmenCtrl">
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Add SalesMen</h2>
+            <span flex></span>
+        </div>
+    </md-toolbar>
+    <div>
+        <div class="sub-header">
+            <h3>{{id}} </h3>
+        </div>
+        <div ng-repeat=" user in salesmen">
+            {{user}}
+            <!--<div class="md-3-line" ng-repeat="u in user.Order">-->
+                <!--<img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}"/>-->
+                <!--<div class="md-list-item-text" layout="column">-->
+                    <!--<h3>Shop: {{u.ShopName}}</h3>-->
+                    <!--<h4>Product: {{u.product}}</h4>-->
+                    <!--<h4>Product Id: {{u._id}}</h4>-->
+                    <!--<h4>Quantity: {{u.quantity}}</h4>-->
+                <!--</div>-->
+                <!--<md-divider></md-divider>-->
+            <!--</div>-->
+        </div>
+        <h1>abc</h1>
+    </div>
+</md-dialog>

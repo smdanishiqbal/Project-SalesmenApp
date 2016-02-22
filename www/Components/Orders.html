@@ -1,0 +1,30 @@
+<ui-view>
+    <div>
+        <div>
+            <div id="banner">
+
+            </div>
+        </div>
+        <md-divider></md-divider>
+        <div>
+            <md-button  class="md-raised md-primary"  ng-click="ShowUsers()">My Salesmen</md-button>
+        </div>
+        <div >
+
+            <md-divider></md-divider>
+            <md-list ng-repeat=" user in users">
+
+                <md-list-item class="md-3-line" ng-repeat="u in user.user">
+                    <img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}"/>
+                    <md-button ng-click="show(u._id)" class="md-list-item-text" layout="column">
+                        <h3>{{u._id}}</h3>
+                        <h4>{{u.email}}</h4>
+                    </md-button>
+                    <md-divider></md-divider>
+                </md-list-item>
+            </md-list>
+
+        </div>
+    </div>
+
+</ui-view>

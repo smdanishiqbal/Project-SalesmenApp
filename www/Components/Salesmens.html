@@ -1,0 +1,54 @@
+<ui-view ng-controller="detailsCtrl">
+    <div>
+        <md-sidenav md-component-id="left" md-is-open="isSidenavOpen" class="md-sidenav-left">
+            <md-content>
+                <md-toolbar>
+                    <div class="md-toolbar-tools" layout="row">
+
+                        <h2>
+                            SalesMen's
+                        </h2>
+                    </div>
+                </md-toolbar>
+
+                <md-list ng-repeat=" user in salesmen">
+
+                    <md-list-item class="md-3-line" ng-repeat="u in user.user">
+                        <img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}"/>
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{u.name}}</h3>
+                            <h4>{{u.email}}</h4>
+                        </div>
+                        <md-divider></md-divider>
+                    </md-list-item>
+                </md-list>
+            </md-content>
+        </md-sidenav>
+
+        <md-tabs md-stretch-tabs="always" md-dynamic-height md-border-bottom>
+            <md-tab label="Companies">
+                <md-list>
+                    <md-list-item class="md-3-line" ng-repeat="user in users">
+                        <img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}"/>
+
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{user.CompanyName}}</h3>
+                            <h4>{{ user.email }}</h4>
+
+                            <div class="divBtn">
+                                <md-button class="btn" ng-click="showAdvanced($event,user._id)">Add Salesmen
+                                </md-button>
+                                <md-button class="btn" ng-click="show(user._id)">Registered Salesmen's</md-button>
+                            </div>
+                        </div>
+
+                        <md-divider></md-divider>
+                    </md-list-item>
+                </md-list>
+            </md-tab>
+        </md-tabs>
+
+
+    </div>
+
+</ui-view>
