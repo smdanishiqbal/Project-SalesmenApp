@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['firebase'])
+angular.module('starter.controllers', ['firebase','LocalStorageModule','ngCordova'])
 
   .constant("myfirebaseAddress","https://salesmenapp15.firebaseio.com/")
   .factory('service', function(){
@@ -16,7 +16,7 @@ angular.module('starter.controllers', ['firebase'])
   })
 
 
-  .controller('DashCtrl', function($scope,myfirebaseAddress,$location,$http,$state,service) {
+  .controller('DashCtrl', function($scope,myfirebaseAddress,$location,$http,$state,service,localStorageService) {
 
     var ref = new Firebase(myfirebaseAddress);
     ///////login post
@@ -31,9 +31,9 @@ angular.module('starter.controllers', ['firebase'])
       console.log($scope.user);
       $http.post("/login",  $scope.user)
         .success(function(config){
-          console.log(config._id);
-          //$scope.userID=config._id;
-          service.set(config._id);
+          $scope.id=config._id;
+          localStorageService.set('User',$scope.id);
+          service.set(localStorageService.get('User')  );
           console.log("Saved successfully");
           ref.authWithPassword($scope.user, function (error, authData) {
               $scope.isLoading = false;
@@ -147,21 +147,27 @@ $scope.submit=function()
 
 
 
-  .controller('AccountCtrl', function($scope,myfirebaseAddress,$location, $http,service) {
+  .controller('AccountCtrl', function($scope,$ionicPlatform,$ionicLoading,myfirebaseAddress,$location, $http,service,localStorageService, $cordovaGeolocation) {
     var ref = new Firebase(myfirebaseAddress);
     var vm = this;
     $scope.userData = {};
+    $scope.lat="";
+    $scope.long="";
 
     $scope.saveProduct = function(){
-      $scope.id= service.get();
+      //$scope.id= service.get();
+      $scope.id=localStorageService.get('User')  ;
       console.log($scope.id);
+      console.log($scope.lat);
       //action="/account" method="post"
 
       $http.post("/account", {
         id:$scope.id,
         Shop:$scope.userData.Shop,
         Product:$scope.userData.Product,
-        quantity:$scope.userData.quantity
+        quantity:$scope.userData.quantity,
+        Lat: $scope.lat,
+        Long:$scope.long
       })
         .success(function(config){
           console.log(config);
@@ -176,7 +182,8 @@ $scope.submit=function()
     };
     //For geting user Product
     $scope.view = function(){
-      $scope.id= service.get();
+      $scope.id=localStorageService.get('User')  ;
+
       console.log($scope.id);
       //action="/account" method="post"
 
@@ -195,6 +202,44 @@ $scope.submit=function()
         });
     };
 
+
+    ///////////////Geo location
+    $ionicPlatform.ready(function() {
+
+      $ionicLoading.show({
+        template: '<ion-spinner icon="bubbles"></ion-spinner><br/>Acquiring location!'
+      });
+
+      var posOptions = {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0
+      };
+
+      $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
+        $scope.lat  = position.coords.latitude;
+        $scope.long = position.coords.longitude;
+        //console.log(lat);
+        //console.log(long);
+
+        var myLatlng = new google.maps.LatLng($scope.lat,$scope.long);
+
+        var mapOptions = {
+          center: myLatlng,
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        $scope.map = map;
+        $ionicLoading.hide();
+
+      }, function(err) {
+        $ionicLoading.hide();
+        console.log(err);
+      });
+    })
 
 
   });
