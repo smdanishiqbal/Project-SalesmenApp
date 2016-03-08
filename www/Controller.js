@@ -1,7 +1,7 @@
 /**
  * Created by SMD on 1/29/2016.
  */
-angular.module('myApp', ['ngMaterial','firebase','ui.router'])
+angular.module('myApp', ['ngMaterial','firebase','ui.router','LocalStorageModule','ngMap'])
 
     .constant("myfirebaseAddress","https://salesmenapp15.firebaseio.com/")
     .factory('service', function(){
@@ -54,6 +54,12 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
                 controller:'SalesmenCtrl'
 
             })
+            .state('map',{
+                url:"/map",
+                templateUrl:'Components/map.html',
+                controller:'SalesmenCtrl'
+
+            })
             .state('Account',{
                 url:"/Account",
                 templateUrl:'Components/Account.html',
@@ -81,7 +87,7 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
 
 
 
-    .controller('login', function($scope,myfirebaseAddress,$location,$mdToast,$http,$state,service) {
+    .controller('login', function($scope,myfirebaseAddress,$location,$mdToast,$http,$state,service,localStorageService) {
 
         var ref = new Firebase(myfirebaseAddress);
         $scope.userImg="img/wallpaper.jpg";
@@ -120,8 +126,8 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
             $http.post("/login",  $scope.user)
                 .success(function(config){
                     $scope.id=config._id;
-
-                    service.set($scope.id);
+                    localStorageService.set('User',$scope.id);
+                    service.set(localStorageService.get('User')  );
 
                     ref.authWithPassword($scope.user, function (error, authData) {
                         if (error) {
@@ -161,6 +167,9 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
             $http.post("/adminlogin",  $scope.admin)
                 .success(function(config){
                     console.log(config);
+                    $scope.id=config._id;
+                    localStorageService.set('User',$scope.id);
+
                     $scope.isLoading = false;
 
 
@@ -186,11 +195,12 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
 
     })
 
-    .controller('SalesmenCtrl', function($scope,myfirebaseAddress,$location,service,$http,$mdSidenav,$mdMedia,$mdDialog) {
+    .controller('SalesmenCtrl', function($scope,$state,NgMap,myfirebaseAddress,$location,service,$http,$mdSidenav,$mdMedia,$mdDialog,localStorageService) {
         $scope.Banner="img/company.jpg";
         $scope.userImg="img/user.jpg";
+        $scope.salesmen='';
         $scope.ShowUsers=function() {
-            $scope.id= service.get();
+            $scope.id=localStorageService.get('User')  ;
             console.log($scope.id);
             $http.post("/companyuser",{id:$scope.id})
                 .success(function(config){
@@ -202,30 +212,13 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
                 });
         };
 
-        $scope.show=function(id){
-            $scope.id=id;
-            $http.post('/viewSalesmen',{id:$scope.id})
-                .success(function(config) {
-                    $scope.salesmen=config;
-                    console.log(config);
 
-                });
-            $mdSidenav('left').toggle();
-        };
 
-        //-------------------------------------
-        $scope.showProducts=function(ev,id){
-            $scope.cid=id;
-            $http.post('/viewSalesmen',{id:$scope.cid})
-                .success(function(config) {
-                    $scope.salesmen=config;
-                    console.log(config);
-
-                });
+        $scope.showAdvanced=function(ev){
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             $mdDialog.show({
 
-                templateUrl: 'users.html',
+                templateUrl: 'addsalesmen.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose:true,
@@ -245,13 +238,135 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
 
 
         };
-        $scope.close=function(){
-            // Easily hides most recent dialog shown...
-            // no specific instance reference is needed.
-            $mdDialog.hide();
+
+
+
+
+
+
+        ///Create Salesmen Account
+
+        $scope.createSalemen = function(){
+            //action="/Salesmen" method="post"
+
+          //  $scope.id= service.get();
+            $scope.id=localStorageService.get('User');
+
+            console.log($scope.userData.salesmen);
+            $http.post("/salesmen",{
+                comid:$scope.id,
+                uname:$scope.userData.salesmen,
+                uemail:$scope.userData.email,
+                upassword:$scope.userData.password
+
+            })
+
+                .success(function(config){
+
+                    console.log(config);
+                    console.log("Saved successfully");
+                    ref.createUser({
+                        "email": $scope.userData.email,
+                        password: $scope.userData.password
+                    }, function(error, userData) {
+                        if (error) {
+                            switch (error.code) {
+                                case "EMAIL_TAKEN":
+                                    console.log("The new user account cannot be created because the email is already in use.");
+                                    break;
+                                case "INVALID_EMAIL":
+                                    console.log("The specified email is not a valid email.");
+                                    break;
+                                default:
+                                    console.log("Error creating user:", error);
+                            }
+                        } else {
+                            console.log("Successfully created user account with uid:", userData.uid);
+                            $scope.close();
+
+
+
+                        }
+                    });
+                })
+                .error(function(){
+                    console.log("Error in saving");
+                });
         };
 
 
+
+
+        $scope.show=function(id){
+            $scope.id=id;
+            $http.post('/viewSalesmen',{id:$scope.id})
+                .success(function(config) {
+                    $scope.salesmen=config;
+                    console.log(config);
+
+                });
+            $mdSidenav('left').toggle();
+        };
+
+        //-------------------------------------
+        //$scope.showProducts=function(ev,id){
+        //    $scope.cid=id;
+        //    $http.post('/viewSalesmen',{id:$scope.cid})
+        //        .success(function(config) {
+        //            $scope.salesmen=config;
+        //            console.log(config);
+        //
+        //        });
+        //    var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
+        //    $mdDialog.show({
+        //
+        //        templateUrl: 'users.html',
+        //        parent: angular.element(document.body),
+        //        targetEvent: ev,
+        //        clickOutsideToClose:true,
+        //        fullscreen: useFullScreen
+        //    })
+        //        .then(function(answer) {
+        //            $scope.status = 'You said the information was "' + answer + '".';
+        //        }, function() {
+        //            $scope.status = 'You cancelled the dialog.';
+        //        });
+        //    $scope.$watch(function() {
+        //        return $mdMedia('xs') || $mdMedia('sm');
+        //    }, function(wantsFullScreen) {
+        //        $scope.customFullscreen = (wantsFullScreen === true);
+        //    });
+        //
+        //
+        //
+        //};
+        //$scope.close=function(){
+        //    // Easily hides most recent dialog shown...
+        //    // no specific instance reference is needed.
+        //    $mdDialog.hide();
+        //};
+
+
+//Geo Location---------------------------------
+        $scope.Lati=localStorageService.get('Lat');
+        $scope.Longi=localStorageService.get('Long');
+
+        $scope.position=function(Lat,Long){
+            localStorageService.set('Lat',Lat);
+            localStorageService.set('Long',Long);
+
+
+            console.log($scope.Lati);
+            console.log($scope.Longi);
+            $state.go('map');
+
+
+
+
+
+
+
+        };
 
 
 
@@ -265,14 +380,14 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
 
     })
 
-    .controller('detailsCtrl', function($scope,myfirebaseAddress,$location,$timeout,$http, $mdDialog,$mdMedia,service,$mdSidenav) {
+    .controller('detailsCtrl', function($scope,myfirebaseAddress,$location,$timeout,$http, $mdDialog,$mdMedia,service,$mdSidenav,localStorageService) {
         var ref = new Firebase(myfirebaseAddress);
 
         $scope.users = {};
         $scope.showAdvanced=function(ev,id){
             $scope.cid=id;
-
-            service.set(id);
+            localStorageService.set('User',id);
+           // service.set(id);
             var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
             $mdDialog.show({
 
@@ -344,9 +459,9 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
         $scope.createSalemen = function(){
             //action="/Salesmen" method="post"
 
-            $scope.id= service.get();
+          // $scope.id= service.get();
 
-
+            $scope.id=localStorageService.get('User')  ;
                 console.log($scope.userData.salesmen);
             $http.post("/salesmen",{
                 comid:$scope.id,
@@ -394,7 +509,7 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
 
     })
 
-    .controller('AccountCtrl', function($scope,myfirebaseAddress,$location, $http,$interval) {
+    .controller('AccountCtrl', function($scope,myfirebaseAddress,$location, $http,$interval,localStorageService) {
         var ref = new Firebase(myfirebaseAddress);
         var vm = this;
         $scope.userData = {};
@@ -452,6 +567,9 @@ angular.module('myApp', ['ngMaterial','firebase','ui.router'])
 //Dialog function
 
 function DialogController($scope, $mdDialog,service) {
+    //    console.log('shapes', map.shapes);
+
+
     $scope.id= service.get();
     $scope.hide = function() {
         $mdDialog.hide();
