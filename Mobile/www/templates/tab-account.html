@@ -24,11 +24,13 @@
     <h3>ORDER'S DETAIL</h3>
     </div>
     <div ng-repeat="data in product">
-      <a ng-repeat="product in data.Order" class="item item-avatar" href="#">
-        <h3>PRODUCT ID:      {{product._id}}</h3>
+      <a ng-repeat="product in data.Order" class="item item-thumbnail-left" href="#">
+        <img src="../img/pakg.png">
+
+        <h3>ORDER ID:      {{product._id}}</h3>
         <h3>SHOP NAME:       {{product.ShopName}}</h3>
         <h4>PRODUCT:         {{product.product}}</h4>
-        <h4>PRODUCT QUANTITY:{{product.quantity}}</h4>
+        <h4>QUANTITY:        {{product.quantity}}</h4>
         <h5>ORDER DATE:      {{product.createdOn}}</h5>
       </a>
       <!--<div ng-repeat="product in data.Order">-->
