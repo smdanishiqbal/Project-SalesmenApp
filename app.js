@@ -233,7 +233,7 @@ app.post('/salesmen', function (req, res) {
                 res.json(err);
                 //   console.log("-----------err----------"+err);
             } else {
-                //console.log("-----------doc----------"+doc);
+                console.log("-----------doc----------"+doc);
                 company.findByIdAndUpdate(
                     req.body.comid,
                     {$push: {user: doc._id}},
