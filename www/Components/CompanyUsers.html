@@ -20,6 +20,15 @@
                         <h4>Product: {{u.product}}</h4>
                         <h4>Product Id: {{u._id}}</h4>
                         <h4>Quantity: {{u.quantity}}</h4>
+
+                        <md-button  class="md-raised md-primary " ng-click="position(u.Lat,u.Long)">Shop Location</md-button>
+                        <div ng-show="myVar">
+                        <!--<ng-map  center="{{u.Lat}},{{u.Long}}" zoom="12">-->
+                            <!--<marker position="[{{u.Lat}},{{u.Long}}]" />-->
+                            <!--<shape name="circle" radius="400" center="[{{u.Lat}},{{u.Long}}]" radius="4000" />-->
+                            <!--<control name="overviewMap" opened="true" />-->
+                        <!--</ng-map>-->
+                        </div>
                     </div>
                     <md-divider></md-divider>
                 </md-list-item>
@@ -33,7 +42,9 @@
     </div>
     <md-divider></md-divider>
     <div>
-        <md-button  class="md-raised md-primary"  ng-click="ShowUsers()">Track Salesmen</md-button>
+        <md-button  class="md-raised md-primary "  ng-click="ShowUsers()">Track Salesmen</md-button>
+        <md-button  class="md-raised md-primary "  ng-click="showAdvanced($event)">Add Salesmen</md-button>
+
     </div>
     <div >
 
@@ -43,9 +54,11 @@
             <md-list-item class="md-3-line" ng-repeat="u in user.user">
                 <img ng-src="{{userImg}}?{{$index}}" class="md-avatar" alt="{{user.CompanyName}}"/>
                 <div class="md-list-item-text" layout="column">
-                     <h3> Salesmen Name:    {{u.name}}</h3>
-                     <h3>Salesmen ID:     {{u._id}}</h3>
-                   <h4> Salesmen Email   {{u.email}}</h4>
+                    <br>
+                    <h3>Salesmen ID   :   {{u._id}}</h3>
+                     <h3>Salesmen Name :   {{u.name}}</h3>
+
+                     <h3>Salesmen Email:   {{u.email}}</h3>
                     <div class="divBtn">
                     <md-button class="btn" ng-click="show(u._id)" >Orders</md-button>
                         </div>

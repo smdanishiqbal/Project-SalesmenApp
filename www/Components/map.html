@@ -1,0 +1,12 @@
+<ui-view ng-controller="SalesmenCtrl">
+    <div>
+
+        <ng-map  center="{{Lati}},{{Longi}}" zoom="12">
+            <marker position="[{{Lati}},{{Longi}}]" />
+            <shape name="circle" radius="400" center="[{{Lati}},{{Longi}}]" radius="4000" />
+            <control name="overviewMap" opened="true" />
+        </ng-map>
+        {{Lati}},{{Longi}}acvb
+        </div>
+    <md-button  class="md-raised md-primary " ui-sref="CompanyUsers">Go Back</md-button>
+    </ui-view>
