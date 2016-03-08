@@ -44,6 +44,7 @@ var userSchema = new mongoose.Schema({
   createdOn: {type: Date, default: Date.now},
   comid: [{type: mongoose.Schema.Types.ObjectId, ref: 'company'}],
   Order: [{type: Schema.ObjectId, ref: 'Order'}]
+
 });
 var CompanySchema = new mongoose.Schema({
   CompanyName: String,
@@ -57,6 +58,8 @@ var OrderSchema = new mongoose.Schema({
   ShopName: String,
   product: String,
   quantity: String,
+  Lat:String,
+  Long:String,
   createdOn: {type: Date, default: Date.now},
   user: [{type: Schema.ObjectId, ref: 'User', default: []}]
 
@@ -74,10 +77,15 @@ app.post('/account', function (req, res) {
   console.log(req.body.Shop);
   console.log(req.body.Product);
   console.log(req.body.quantity);
+  console.log(req.body.Lat);
+  console.log(req.body.Long);
+
   new Order({
     ShopName: req.body.Shop,
     product: req.body.Product,
-    quantity: req.body.quantity
+    quantity: req.body.quantity,
+    Lat:req.body.Lat,
+    Long:req.body.Long
   })
     .save(function (err, doc) {
       if (err)res.json(err);
